@@ -1,10 +1,10 @@
 import {Render} from 'matter-js'
 import Game from './game'
-import React from 'react'
-import ReactDOM from 'react-dom'
-import RootView from './views/root_view'
-import log from './log'
-import nanobus from 'nanobus'
+// import React from 'react'
+// import ReactDOM from 'react-dom'
+// import RootView from './views/root_view'
+// import log from './log'
+// import nanobus from 'nanobus'
 
 // const bus = nanobus()
 
@@ -18,10 +18,13 @@ import nanobus from 'nanobus'
 const game = new Game()
 
 // create a renderer
-const render = Render.create({
+const renderer = Render.create({
   element: document.body,
-  engine: game.engine
+  engine: game.engine,
+  options: {
+    wireframes: false
+  }
 })
 
 // run the renderer
-Render.run(render)
+Render.run(renderer)
