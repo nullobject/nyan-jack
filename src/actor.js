@@ -22,7 +22,7 @@ export default class Actor {
     this.sprite.rotation = this.body.angle
   }
 
-  jump () {
-    Body.setVelocity(this.body, {x: 0, y: -10})
+  setVelocity (velocity) {
+    Body.setVelocity(this.body, velocity)
   }
 }
