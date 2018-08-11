@@ -1,4 +1,4 @@
-import Sprite from './sprite'
+import Actor from './actor'
 import {Rectangle, Texture} from 'pixi.js'
 import {range} from 'fkit'
 
@@ -6,7 +6,7 @@ const WIDTH = 60
 const HEIGHT = 42
 const NUM_SPRITES = 5
 
-export default class Player extends Sprite {
+export default class Player extends Actor {
   constructor (resource) {
     let textures = range(0, NUM_SPRITES).map(n => {
       let texture = new Texture(resource)

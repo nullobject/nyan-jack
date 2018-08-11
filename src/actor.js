@@ -1,7 +1,7 @@
 import * as Pixi from 'pixi.js'
 import {Bodies, Body} from 'matter-js'
 
-export default class Sprite {
+export default class Actor {
   constructor ({x, y, width, height, texture, textures}) {
     this.body = Bodies.rectangle(x, y, width, height)
 
