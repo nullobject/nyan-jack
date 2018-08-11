@@ -1,9 +1,9 @@
 import * as Pixi from 'pixi.js'
-import {Bodies, Body} from 'matter-js'
+import {Body} from 'matter-js'
 
 export default class Actor {
-  constructor ({x, y, width, height, texture, textures}) {
-    this.body = Bodies.rectangle(x, y, width, height)
+  constructor ({body, texture, textures}) {
+    this.body = body
 
     if (textures) {
       this.sprite = new Pixi.extras.AnimatedSprite(textures)
@@ -15,6 +15,8 @@ export default class Actor {
 
     this.sprite.anchor.x = 0.5
     this.sprite.anchor.y = 0.5
+
+    this.update()
   }
 
   update (delta) {
@@ -22,7 +24,7 @@ export default class Actor {
     this.sprite.rotation = this.body.angle
   }
 
-  jump () {
-    Body.setVelocity(this.body, {x: 0, y: -10})
+  setVelocity (velocity) {
+    Body.setVelocity(this.body, velocity)
   }
 }

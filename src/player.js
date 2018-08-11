@@ -1,4 +1,5 @@
 import Actor from './actor'
+import {Bodies} from 'matter-js'
 import {Rectangle} from 'pixi.js'
 import {range} from 'fkit'
 
@@ -14,6 +15,7 @@ export default class Player extends Actor {
       return subtexture
     })
 
-    super({x: 400, y: 200, width: WIDTH, height: HEIGHT, textures: textures})
+    let body = Bodies.rectangle(400, 200, WIDTH, HEIGHT)
+    super({body, textures})
   }
 }
