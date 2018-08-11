@@ -3,6 +3,7 @@ import Game from './game'
 import background from '../assets/images/background.png'
 import nyan from '../assets/images/nyan.png'
 import star from '../assets/images/star.png'
+import tiles from '../assets/images/tiles.png'
 import {Render} from 'matter-js'
 import {keyboard} from 'bulb'
 
@@ -28,6 +29,7 @@ Pixi.loader
   .add('background', background)
   .add('nyan', nyan)
   .add('star', star)
+  .add('tiles', tiles)
   .load((loader, resources) => {
     const game = new Game(app, resources)
 
@@ -43,10 +45,6 @@ Pixi.loader
     app.ticker.add(delta => {
       game.update(delta)
     })
-
-    // setInterval(() => {
-    //   game.player.jump()
-    // }, 2000)
 
     keyboard.state(document).subscribe(state => {
       const vector = {x: 0, y: 0}

@@ -15,6 +15,8 @@ export default class Actor {
 
     this.sprite.anchor.x = 0.5
     this.sprite.anchor.y = 0.5
+
+    this.update()
   }
 
   update (delta) {

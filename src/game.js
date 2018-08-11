@@ -1,7 +1,8 @@
+import Platform from './platform'
 import Player from './player'
 import Star from './star'
 import {Engine, World, Bodies} from 'matter-js'
-import {Sprite, Texture} from 'pixi.js'
+import {Sprite} from 'pixi.js'
 import {append, range} from 'fkit'
 
 const WALL_THICKNESS = 10
@@ -11,18 +12,22 @@ const HEIGHT = 544
 export default class Game {
   constructor (app, resources) {
     this.player = new Player(resources.nyan.texture)
-    let stars = range(0, 5).map(n => new Star(resources.star.texture))
+    const stars = range(0, 5).map(n => new Star(resources.star.texture))
 
     this.actors = append(this.player, stars)
 
-    this.initPhysics()
-    this.initSprites(app, resources)
-  }
-
-  initPhysics () {
     // Create a physics engine.
     this.engine = Engine.create()
 
+    this.addWalls()
+    this.initSprites(app, resources)
+    this.addPlatforms(app, resources)
+
+    // Run the engine.
+    Engine.run(this.engine)
+  }
+
+  addWalls () {
     const floor = Bodies.rectangle(WIDTH / 2, HEIGHT + (WALL_THICKNESS / 2), WIDTH, WALL_THICKNESS, {isStatic: true})
     const ceiling = Bodies.rectangle(WIDTH / 2, -WALL_THICKNESS / 2, 480, WALL_THICKNESS, {isStatic: true})
     const leftWall = Bodies.rectangle(-WALL_THICKNESS / 2, HEIGHT / 2, WALL_THICKNESS, HEIGHT, {isStatic: true})
@@ -30,20 +35,23 @@ export default class Game {
 
     // Add the walls to the physics engine.
     World.add(this.engine.world, [floor, ceiling, leftWall, rightWall])
+  }
 
-    // Add all of the actors to the physics engine.
-    World.add(this.engine.world, this.actors.map(actor => actor.body))
+  addPlatforms (app, resources) {
+    const platform = new Platform({texture: resources.tiles.texture, x: 200, y: 200})
+    app.stage.addChild(platform.sprite)
 
-    // Run the engine.
-    Engine.run(this.engine)
+    World.add(this.engine.world, platform.body)
   }
 
   initSprites (app, resources) {
-    let texture = new Texture(resources.background.texture)
-    let background = new Sprite(texture)
+    const background = new Sprite(resources.background.texture)
     app.stage.addChild(background)
 
     this.actors.map(actor => app.stage.addChild(actor.sprite))
+
+    // Add all of the actors to the physics engine.
+    World.add(this.engine.world, this.actors.map(actor => actor.body))
   }
 
   update (delta) {
