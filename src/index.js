@@ -47,7 +47,7 @@ Pixi.loader
       element: document.body,
       engine: game.engine,
       options: {
-        wireframes: true
+        wireframes: false
       }
     })
 
