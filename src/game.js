@@ -1,7 +1,8 @@
 import Player from './player'
 import Star from './star'
-import {Sprite, Texture} from 'pixi.js'
 import {Engine, World, Bodies} from 'matter-js'
+import {Sprite, Texture} from 'pixi.js'
+import {append, range} from 'fkit'
 
 const WALL_THICKNESS = 10
 const WIDTH = 480
@@ -10,9 +11,9 @@ const HEIGHT = 544
 export default class Game {
   constructor (app, resources) {
     this.player = new Player(resources.nyan.texture)
-    let star = new Star(resources.star.texture)
+    let stars = range(0, 5).map(n => new Star(resources.star.texture))
 
-    this.actors = [this.player, star]
+    this.actors = append(this.player, stars)
 
     this.initPhysics()
     this.initSprites(app, resources)
