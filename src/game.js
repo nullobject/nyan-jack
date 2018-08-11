@@ -7,7 +7,7 @@ export default class Game {
     this.engine = Engine.create()
 
     // create two boxes and a ground
-    const boxA = Bodies.rectangle(400, 200, 80, 80, {
+    this.boxA = Bodies.rectangle(400, 200, 80, 80, {
       render: {
         sprite: {
           texture: nyanSprite
@@ -15,7 +15,7 @@ export default class Game {
       }
     })
 
-    const boxB = Bodies.rectangle(450, 50, 80, 80, {
+    this.boxB = Bodies.rectangle(450, 50, 80, 80, {
       render: {
         sprite: {
           texture: starSprite
@@ -26,7 +26,7 @@ export default class Game {
     const ground = Bodies.rectangle(400, 610, 810, 60, {isStatic: true})
 
     // add all of the bodies to the world
-    World.add(this.engine.world, [boxA, boxB, ground])
+    World.add(this.engine.world, [this.boxA, this.boxB, ground])
 
     // run the engine
     Engine.run(this.engine)

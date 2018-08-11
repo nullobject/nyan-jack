@@ -19,7 +19,7 @@ import nyan from '../assets/images/nyan.png'
 
 let app = new Pixi.Application({
     width: 640,
-    height: 480,
+    height: 800,
     antialiasing: true,
     transparent: false,
     resolution: 1
@@ -28,8 +28,8 @@ let app = new Pixi.Application({
 
 document.body.appendChild(app.view)
 
-// // create an engine
-// const game = new Game()
+// create an engine
+const game = new Game()
 
 // create a renderer
 // const renderer = Render.create({
@@ -47,6 +47,8 @@ const NYAN_WIDTH = 60
 const NYAN_HEIGHT = 42
 const NYAN_SPRITES = 5
 
+var sprite
+
 Pixi.loader
   .add('nyan', nyan)
   .load((loader, resources) => {
@@ -56,7 +58,7 @@ Pixi.loader
     return texture
   })
 
-  let sprite = new Pixi.extras.AnimatedSprite(textures)
+  sprite = new Pixi.extras.AnimatedSprite(textures)
 
   sprite.x = 32
   sprite.y = 32
@@ -66,7 +68,23 @@ Pixi.loader
   app.stage.addChild(sprite)
 
   app.ticker.add(delta => tick(delta))
+
+  animate()
 })
 
 function tick (delta) {
+}
+
+function animate () {
+	// for(var b in bunnies) {
+	// 	bunnies[b].sprite.position = bunnies[b].body.position;
+	// 	bunnies[b].sprite.rotation = bunnies[b].body.angle;
+	// }
+  //
+  sprite.position = game.boxA.position
+
+	// render the container
+	// renderer.render(stage);
+
+	requestAnimationFrame(animate)
 }
