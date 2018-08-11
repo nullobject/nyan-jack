@@ -32,13 +32,13 @@ Pixi.loader
     const game = new Game(app, resources)
 
     // XXX: Matterjs debug renderer.
-    // Render.run(Render.create({
-    //   element: document.body,
-    //   engine: game.engine,
-    //   options: {
-    //     wireframes: false
-    //   }
-    // }))
+    Render.run(Render.create({
+      element: document.body,
+      engine: game.engine,
+      options: {
+        wireframes: false
+      }
+    }))
 
     app.ticker.add(delta => {
       game.update(delta)
