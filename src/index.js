@@ -1,11 +1,12 @@
 import * as Pixi from 'pixi.js'
 import Game from './game'
+import background from '../assets/images/background.png'
 import nyan from '../assets/images/nyan.png'
 import star from '../assets/images/star.png'
 import {Render} from 'matter-js'
 
-const WIDTH = 800
-const HEIGHT = 600
+const WIDTH = 480
+const HEIGHT = 544
 
 let app = new Pixi.Application({
   width: WIDTH,
@@ -18,6 +19,7 @@ let app = new Pixi.Application({
 document.body.appendChild(app.view)
 
 Pixi.loader
+  .add('background', background)
   .add('nyan', nyan)
   .add('star', star)
   .load((loader, resources) => {
