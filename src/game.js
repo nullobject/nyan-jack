@@ -18,8 +18,12 @@ export default class Game {
 
     this.actors = concat([this.player, this.enemy], stars)
 
+    const world = World.create({
+      gravity: {x: 0, y: 1, scale: 0.001}
+    })
+
     // Create a physics engine.
-    this.engine = Engine.create()
+    this.engine = Engine.create({world})
 
     this.addWalls()
     this.initSprites(app, resources)

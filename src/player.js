@@ -14,7 +14,10 @@ export default class Player extends Actor {
       subtexture.frame = new Rectangle(n * WIDTH, 0, WIDTH, HEIGHT)
       return subtexture
     })
-    let body = Bodies.rectangle(400, 200, WIDTH, HEIGHT)
+    let body = Bodies.rectangle(400, 200, WIDTH, HEIGHT, {
+      inertia: Infinity,
+      mass: 10
+    })
     super({body, textures})
     this.sprite.animationSpeed = 0.25
   }
