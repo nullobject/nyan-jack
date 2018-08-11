@@ -1,6 +1,7 @@
 import * as Pixi from 'pixi.js'
 import Game from './game'
 import background from '../assets/images/background.png'
+import bird from '../assets/images/bird.png'
 import nyan from '../assets/images/nyan.png'
 import star from '../assets/images/star.png'
 import tiles from '../assets/images/tiles.png'
@@ -27,6 +28,7 @@ document.body.appendChild(app.view)
 
 Pixi.loader
   .add('background', background)
+  .add('bird', bird)
   .add('nyan', nyan)
   .add('star', star)
   .add('tiles', tiles)

@@ -3,11 +3,11 @@ import {Bodies} from 'matter-js'
 import {Rectangle} from 'pixi.js'
 import {range} from 'fkit'
 
-const WIDTH = 60
-const HEIGHT = 37
-const NUM_SPRITES = 5
+const WIDTH = 32
+const HEIGHT = 36
+const NUM_SPRITES = 4
 
-export default class Player extends Actor {
+export default class Enemy extends Actor {
   constructor (texture) {
     let textures = range(0, NUM_SPRITES).map(n => {
       let subtexture = texture.clone()
@@ -15,8 +15,8 @@ export default class Player extends Actor {
       return subtexture
     })
 
-    let body = Bodies.rectangle(400, 200, WIDTH, HEIGHT)
+    let body = Bodies.rectangle(200, 100, WIDTH, HEIGHT)
     super({body, textures})
-    this.sprite.animationSpeed = 0.25
+    this.sprite.animationSpeed = 0.125
   }
 }

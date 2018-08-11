@@ -1,9 +1,10 @@
+import Enemy from './enemy'
 import Platform from './platform'
 import Player from './player'
 import Star from './star'
 import {Engine, World, Bodies} from 'matter-js'
 import {Sprite} from 'pixi.js'
-import {append, range} from 'fkit'
+import {concat, range} from 'fkit'
 
 const WALL_THICKNESS = 10
 const WIDTH = 480
@@ -12,9 +13,10 @@ const HEIGHT = 544
 export default class Game {
   constructor (app, resources) {
     this.player = new Player(resources.nyan.texture)
+    this.enemy = new Enemy(resources.bird.texture)
     const stars = range(0, 5).map(n => new Star(resources.star.texture))
 
-    this.actors = append(this.player, stars)
+    this.actors = concat([this.player, this.enemy], stars)
 
     // Create a physics engine.
     this.engine = Engine.create()

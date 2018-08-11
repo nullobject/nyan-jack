@@ -7,7 +7,6 @@ export default class Actor {
 
     if (textures) {
       this.sprite = new Pixi.extras.AnimatedSprite(textures)
-      this.sprite.animationSpeed = 0.25
       this.sprite.play()
     } else {
       this.sprite = new Pixi.Sprite(texture)
