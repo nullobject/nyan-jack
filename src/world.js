@@ -36,9 +36,9 @@ export default class World {
         const bodyA = collision.bodyA
         const bodyB = collision.bodyB
         if (bodyA.label === 'Player' && bodyB.label === 'Star') {
-          this.removeStar(app, starMap[bodyB.id])
+          this.removeStar(app, engine, starMap[bodyB.id])
         } else if (bodyA.label === 'Star' && bodyB.label === 'Player') {
-          this.removeStar(app, starMap[bodyA.id])
+          this.removeStar(app, engine, starMap[bodyA.id])
         }
       })
     })
