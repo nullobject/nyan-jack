@@ -5,7 +5,7 @@ const RADIUS = 12
 
 export default class Star extends Actor {
   constructor (texture) {
-    let body = Bodies.circle(400, 200, RADIUS, {
+    let body = Bodies.circle(100, 200, RADIUS, {
       inertia: Infinity,
       // isStatic: true,
       label: 'Star'

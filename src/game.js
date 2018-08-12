@@ -3,7 +3,7 @@ import Platform from './platform'
 import Player from './player'
 import Star from './star'
 import {Engine, Events, World, Bodies} from 'matter-js'
-import {Sprite} from 'pixi.js'
+import {Application, Sprite} from 'pixi.js'
 import {concat, range} from 'fkit'
 
 const WALL_THICKNESS = 10
@@ -11,7 +11,15 @@ const WIDTH = 480
 const HEIGHT = 544
 
 export default class Game {
-  constructor (app, resources) {
+  constructor (resources) {
+    this.app = new Application({
+      width: WIDTH,
+      height: HEIGHT,
+      antialiasing: true,
+      transparent: false,
+      resolution: 1
+    })
+
     // Create a physics engine.
     this.engine = Engine.create()
 
@@ -20,10 +28,10 @@ export default class Game {
     this.stars = range(0, 5).map(n => new Star(resources.star.texture))
     this.actors = concat([this.player, this.enemy], this.stars)
 
-    this.addBackground(app, resources)
+    this.addBackground(resources)
     this.addBounds()
-    this.addPlatforms(app, resources)
-    this.addSprites(app, resources)
+    this.addPlatforms(resources)
+    this.addSprites(resources)
 
     const starMap = this.stars.reduce((result, star) => {
       result[star.id] = star
@@ -45,8 +53,9 @@ export default class Game {
       })
     })
 
-    // Run the engine.
-    Engine.run(this.engine)
+    this.app.ticker.add(delta => {
+      this.update(delta)
+    })
   }
 
   addBounds () {
@@ -57,26 +66,24 @@ export default class Game {
     World.add(this.engine.world, [floor, ceiling, leftWall, rightWall])
   }
 
-  addBackground (app, resources) {
+  addBackground (resources) {
     const background = new Sprite(resources.background.texture)
-    app.stage.addChild(background)
+    this.app.stage.addChild(background)
   }
 
-  addPlatforms (app, resources) {
+  addPlatforms (resources) {
     const platform = new Platform({texture: resources.tiles.texture, x: 200, y: 200})
-    app.stage.addChild(platform.sprite)
+    this.app.stage.addChild(platform.sprite)
     World.add(this.engine.world, platform.body)
   }
 
-  addSprites (app, resources) {
-    this.actors.map(actor => app.stage.addChild(actor.sprite))
+  addSprites (resources) {
+    this.actors.map(actor => this.app.stage.addChild(actor.sprite))
     World.add(this.engine.world, this.actors.map(actor => actor.body))
   }
 
   removeStar (star) {
-    console.log('removing star')
-    // TODO: Remove star.
-    app.stage.removeChild(star.sprite)
+    this.app.stage.removeChild(star.sprite)
     World.remove(this.engine.world, star.body)
   }
 
@@ -85,6 +92,7 @@ export default class Game {
   }
 
   update (delta) {
+    Engine.update(this.engine, delta * 20)
     this.actors.map(actor => actor.update(delta))
   }
 }
