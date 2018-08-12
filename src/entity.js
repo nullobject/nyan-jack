@@ -1,7 +1,7 @@
 import * as Pixi from 'pixi.js'
 import {Body} from 'matter-js'
 
-export default class Actor {
+export default class Entity {
   constructor ({body, texture, textures}) {
     this.body = body
 

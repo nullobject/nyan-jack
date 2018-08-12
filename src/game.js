@@ -26,7 +26,7 @@ export default class Game {
     this.player = new Player(resources.nyan.texture)
     this.enemy = new Enemy(resources.bird.texture)
     this.stars = range(0, 5).map(n => new Star(resources.star.texture))
-    this.actors = concat([this.player, this.enemy], this.stars)
+    this.entities = concat([this.player, this.enemy], this.stars)
 
     this.addBackground(resources)
     this.addBounds()
@@ -78,8 +78,8 @@ export default class Game {
   }
 
   addSprites (resources) {
-    this.actors.map(actor => this.app.stage.addChild(actor.sprite))
-    World.add(this.engine.world, this.actors.map(actor => actor.body))
+    this.entities.map(actor => this.app.stage.addChild(actor.sprite))
+    World.add(this.engine.world, this.entities.map(actor => actor.body))
   }
 
   removeStar (star) {
@@ -93,6 +93,6 @@ export default class Game {
 
   update (delta) {
     Engine.update(this.engine, delta * 20)
-    this.actors.map(actor => actor.update(delta))
+    this.entities.map(actor => actor.update(delta))
   }
 }

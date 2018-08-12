@@ -1,4 +1,4 @@
-import Actor from './actor'
+import Entity from './entity'
 import {Bodies} from 'matter-js'
 import {Rectangle} from 'pixi.js'
 import {range} from 'fkit'
@@ -7,7 +7,7 @@ const WIDTH = 32
 const HEIGHT = 36
 const NUM_SPRITES = 4
 
-export default class Enemy extends Actor {
+export default class Enemy extends Entity {
   constructor (texture) {
     let textures = range(0, NUM_SPRITES).map(n => {
       let subtexture = texture.clone()

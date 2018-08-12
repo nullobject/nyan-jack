@@ -1,9 +1,9 @@
 import {Bodies} from 'matter-js'
-import Actor from './actor'
+import Entity from './entity'
 
 const RADIUS = 12
 
-export default class Star extends Actor {
+export default class Star extends Entity {
   constructor (texture) {
     let body = Bodies.circle(100, 200, RADIUS, {
       inertia: Infinity,
