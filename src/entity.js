@@ -1,7 +1,7 @@
 import * as Pixi from 'pixi.js'
 import {Body} from 'matter-js'
 
-export default class Actor {
+export default class Entity {
   constructor ({body, texture, textures}) {
     this.body = body
 
@@ -16,6 +16,10 @@ export default class Actor {
     this.sprite.anchor.y = 0.5
 
     this.update()
+  }
+
+  get id () {
+    return this.body.id
   }
 
   update (delta) {

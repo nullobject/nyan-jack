@@ -8,23 +8,10 @@ import tiles from '../assets/images/tiles.png'
 import {Render} from 'matter-js'
 import {keyboard} from 'bulb'
 
-const WIDTH = 480
-const HEIGHT = 544
-
 const UP = 38
 const DOWN = 40
 const LEFT = 37
 const RIGHT = 39
-
-let app = new Pixi.Application({
-  width: WIDTH,
-  height: HEIGHT,
-  antialiasing: true,
-  transparent: false,
-  resolution: 1
-})
-
-document.body.appendChild(app.view)
 
 Pixi.loader
   .add('background', background)
@@ -33,7 +20,8 @@ Pixi.loader
   .add('star', star)
   .add('tiles', tiles)
   .load((loader, resources) => {
-    const game = new Game(app, resources)
+    const game = new Game(resources)
+    document.body.appendChild(game.app.view)
 
     // XXX: Matterjs debug renderer.
     Render.run(Render.create({
@@ -43,10 +31,6 @@ Pixi.loader
         wireframes: false
       }
     }))
-
-    app.ticker.add(delta => {
-      game.update(delta)
-    })
 
     keyboard.state(document).subscribe(state => {
       const vector = {x: 0, y: 0}
@@ -61,6 +45,6 @@ Pixi.loader
         vector.x = 2
       }
 
-      game.player.setVelocity(vector)
+      game.setPlayerVelocity(vector)
     })
   })
