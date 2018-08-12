@@ -16,6 +16,7 @@ export default class Player extends Actor {
     })
     let body = Bodies.rectangle(400, 200, WIDTH, HEIGHT, {
       inertia: Infinity,
+      label: 'Player',
       mass: 10
     })
     super({body, textures})

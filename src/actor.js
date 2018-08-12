@@ -18,6 +18,10 @@ export default class Actor {
     this.update()
   }
 
+  get id () {
+    return this.body.id
+  }
+
   update (delta) {
     this.sprite.position = this.body.position
     this.sprite.rotation = this.body.angle

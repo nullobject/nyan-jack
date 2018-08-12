@@ -15,7 +15,8 @@ export default class Enemy extends Actor {
       return subtexture
     })
     let body = Bodies.rectangle(200, 100, WIDTH, HEIGHT, {
-      inertia: Infinity
+      inertia: Infinity,
+      label: 'Enemy'
     })
     super({body, textures})
     this.sprite.animationSpeed = 0.125

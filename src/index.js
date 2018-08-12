@@ -61,6 +61,6 @@ Pixi.loader
         vector.x = 2
       }
 
-      game.player.setVelocity(vector)
+      game.setPlayerVelocity(vector)
     })
   })
