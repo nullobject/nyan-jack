@@ -1,7 +1,7 @@
-import { default as Entity, states } from './entity'
-import {Bodies} from 'matter-js'
-import {Rectangle} from 'pixi.js'
-import {range} from 'fkit'
+import Entity from './entity'
+import { Bodies } from 'matter-js'
+import { Rectangle } from 'pixi.js'
+import { range } from 'fkit'
 
 const WIDTH = 32
 const HEIGHT = 36
@@ -21,18 +21,18 @@ export default class Enemy extends Entity {
       label: 'Enemy'
     })
 
-    super({body, textures})
+    super({ body, textures })
 
     this.sprite.animationSpeed = 0.125
     this.dir = 1
-    this.state = states.WALK
+    this.state = Entity.states.WALK
   }
 
   update (delta) {
     super.update(delta)
 
-    if (this.state === states.WALK) {
-      this.setVelocity({x: this.dir * WALK_VELOCITY, y: 0})
+    if (this.state === Entity.states.WALK) {
+      this.setVelocity({ x: this.dir * WALK_VELOCITY, y: 0 })
     }
   }
 }

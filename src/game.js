@@ -1,6 +1,6 @@
 import World from './world'
-import {Engine} from 'matter-js'
-import {Application} from 'pixi.js'
+import { Engine } from 'matter-js'
+import { Application } from 'pixi.js'
 
 const WIDTH = 480
 const HEIGHT = 544

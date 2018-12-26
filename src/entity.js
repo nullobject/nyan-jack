@@ -1,13 +1,13 @@
 import * as Pixi from 'pixi.js'
-import {Body} from 'matter-js'
-
-export const states = {
-  IDLE: 0,
-  WALK: 1
-}
+import { Body } from 'matter-js'
 
 export default class Entity {
-  constructor ({body, texture, textures}) {
+  static states = {
+    IDLE: 0,
+    WALK: 1
+  }
+
+  constructor ({ body, texture, textures }) {
     this.body = body
 
     if (textures) {
@@ -19,7 +19,7 @@ export default class Entity {
 
     this.sprite.anchor.x = 0.5
     this.sprite.anchor.y = 0.5
-    this.state = states.IDLE
+    this.state = Entity.states.IDLE
 
     this.update()
   }

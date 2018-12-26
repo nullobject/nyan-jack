@@ -5,8 +5,8 @@ import bird from '../assets/images/bird.png'
 import nyan from '../assets/images/nyan.png'
 import star from '../assets/images/star.png'
 import tiles from '../assets/images/tiles.png'
-import {Render} from 'matter-js'
-import {keyboard} from 'bulb'
+import { Render } from 'matter-js'
+import { keyboard } from 'bulb'
 
 const UP = 38
 const DOWN = 40
@@ -33,7 +33,7 @@ Pixi.loader
     }))
 
     keyboard.state(document).subscribe(state => {
-      const vector = {x: 0, y: 0}
+      const vector = { x: 0, y: 0 }
 
       if (state.includes(UP)) {
         vector.y = -10

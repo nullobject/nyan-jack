@@ -1,4 +1,4 @@
-import {Bodies} from 'matter-js'
+import { Bodies } from 'matter-js'
 import Entity from './entity'
 
 const RADIUS = 12
@@ -10,6 +10,6 @@ export default class Star extends Entity {
       // isStatic: true,
       label: 'Star'
     })
-    super({body, texture})
+    super({ body, texture })
   }
 }

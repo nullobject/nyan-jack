@@ -3,20 +3,20 @@ import Platform from './platform'
 import Player from './player'
 import Star from './star'
 import * as Matter from 'matter-js'
-import {Sprite} from 'pixi.js'
-import {concat, range} from 'fkit'
+import { Sprite } from 'pixi.js'
+import { concat, range } from 'fkit'
 
 const WALL_THICKNESS = 10
 
 export default class World {
-  constructor ({width, height, app, engine, resources}) {
+  constructor ({ width, height, app, engine, resources }) {
     this.width = width
     this.height = height
 
     this.player = new Player(resources.nyan.texture)
     this.enemy = new Enemy(resources.bird.texture)
     this.stars = range(0, 5).map(n => new Star(resources.star.texture))
-    this.platforms = range(0, 2).map(n => new Platform({texture: resources.tiles.texture, x: (200 * n) + 140, y: 200}))
+    this.platforms = range(0, 2).map(n => new Platform({ texture: resources.tiles.texture, x: (200 * n) + 140, y: 200 }))
     this.entities = concat([this.player, this.enemy], this.platforms, this.stars)
 
     const entityMap = this.entities.reduce((result, entity) => {
@@ -58,10 +58,10 @@ export default class World {
   }
 
   addBounds (app, engine, resources) {
-    const floor = Matter.Bodies.rectangle(this.width / 2, this.height + (WALL_THICKNESS / 2), this.width, WALL_THICKNESS, {isStatic: true, label: 'Floor'})
-    const ceiling = Matter.Bodies.rectangle(this.width / 2, -WALL_THICKNESS / 2, 480, WALL_THICKNESS, {isStatic: true, label: 'Ceiling'})
-    const leftWall = Matter.Bodies.rectangle(-WALL_THICKNESS / 2, this.height / 2, WALL_THICKNESS, this.height, {isStatic: true, label: 'Wall'})
-    const rightWall = Matter.Bodies.rectangle(this.width + (WALL_THICKNESS / 2), this.height / 2, WALL_THICKNESS, this.height, {isStatic: true, label: 'Wall'})
+    const floor = Matter.Bodies.rectangle(this.width / 2, this.height + (WALL_THICKNESS / 2), this.width, WALL_THICKNESS, { isStatic: true, label: 'Floor' })
+    const ceiling = Matter.Bodies.rectangle(this.width / 2, -WALL_THICKNESS / 2, 480, WALL_THICKNESS, { isStatic: true, label: 'Ceiling' })
+    const leftWall = Matter.Bodies.rectangle(-WALL_THICKNESS / 2, this.height / 2, WALL_THICKNESS, this.height, { isStatic: true, label: 'Wall' })
+    const rightWall = Matter.Bodies.rectangle(this.width + (WALL_THICKNESS / 2), this.height / 2, WALL_THICKNESS, this.height, { isStatic: true, label: 'Wall' })
     Matter.World.add(engine.world, [floor, ceiling, leftWall, rightWall])
   }
 

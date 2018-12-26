@@ -1,7 +1,7 @@
 import Entity from './entity'
-import {Bodies} from 'matter-js'
-import {Rectangle} from 'pixi.js'
-import {range} from 'fkit'
+import { Bodies } from 'matter-js'
+import { Rectangle } from 'pixi.js'
+import { range } from 'fkit'
 
 const WIDTH = 60
 const HEIGHT = 37
@@ -19,7 +19,7 @@ export default class Player extends Entity {
       label: 'Player',
       mass: 10
     })
-    super({body, textures})
+    super({ body, textures })
     this.sprite.animationSpeed = 0.25
   }
 }
