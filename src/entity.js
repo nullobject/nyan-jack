@@ -36,4 +36,8 @@ export default class Entity {
   setVelocity (velocity) {
     Body.setVelocity(this.body, velocity)
   }
+
+  applyForce (force) {
+    Body.applyForce(this.body, { x: 0, y: 0 }, force)
+  }
 }

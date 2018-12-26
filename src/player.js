@@ -8,6 +8,8 @@ const HEIGHT = 37
 const NUM_SPRITES = 5
 
 export default class Player extends Entity {
+  static label = 'player'
+
   constructor (texture) {
     let textures = range(0, NUM_SPRITES).map(n => {
       let subtexture = texture.clone()
@@ -16,8 +18,9 @@ export default class Player extends Entity {
     })
     let body = Bodies.rectangle(400, 200, WIDTH, HEIGHT, {
       inertia: Infinity,
-      label: 'Player',
-      mass: 10
+      label: Player.label,
+      mass: 10,
+      friction: 0
     })
     super({ body, textures })
     this.sprite.animationSpeed = 0.25

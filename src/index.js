@@ -24,27 +24,23 @@ Pixi.loader
     document.body.appendChild(game.app.view)
 
     // XXX: Matterjs debug renderer.
-    Render.run(Render.create({
-      element: document.body,
-      engine: game.engine,
-      options: {
-        wireframes: false
-      }
-    }))
+    // Render.run(Render.create({
+    //   element: document.body,
+    //   engine: game.engine,
+    //   options: {
+    //     wireframes: false
+    //   }
+    // }))
 
     keyboard.state(document).subscribe(state => {
-      const vector = { x: 0, y: 0 }
-
       if (state.includes(UP)) {
-        vector.y = -10
+        game.applyForceToPlayer({ x: 0, y: -0.5 })
       }
 
       if (state.includes(LEFT)) {
-        vector.x = -2
+        game.setPlayerVelocity({ x: -2, y: 0 })
       } else if (state.includes(RIGHT)) {
-        vector.x = 2
+        game.setPlayerVelocity({ x: 2, y: 0 })
       }
-
-      game.setPlayerVelocity(vector)
     })
   })

@@ -34,6 +34,10 @@ export default class Game {
     this.world.player.setVelocity(vector)
   }
 
+  applyForceToPlayer (vector) {
+    this.world.player.applyForce(vector)
+  }
+
   update (delta) {
     Engine.update(this.engine, delta * 10)
     this.world.update(delta)

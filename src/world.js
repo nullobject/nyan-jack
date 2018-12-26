@@ -8,6 +8,29 @@ import { concat, range } from 'fkit'
 
 const WALL_THICKNESS = 10
 
+function addBackground (app, engine, background) {
+  const sprite = new Sprite(background.texture)
+  app.stage.addChild(sprite)
+}
+
+function addBounds (app, engine, width, height) {
+  const floor = Matter.Bodies.rectangle(width / 2, height + (WALL_THICKNESS / 2), width, WALL_THICKNESS, { isStatic: true, label: 'floor' })
+  const ceiling = Matter.Bodies.rectangle(width / 2, -WALL_THICKNESS / 2, 480, WALL_THICKNESS, { isStatic: true, label: 'ceiling' })
+  const leftWall = Matter.Bodies.rectangle(-WALL_THICKNESS / 2, height / 2, WALL_THICKNESS, height, { isStatic: true, label: 'wall' })
+  const rightWall = Matter.Bodies.rectangle(width + (WALL_THICKNESS / 2), height / 2, WALL_THICKNESS, height, { isStatic: true, label: 'wall' })
+  Matter.World.add(engine.world, [floor, ceiling, leftWall, rightWall])
+}
+
+function addEntities (app, engine, entities) {
+  entities.map(entity => app.stage.addChild(entity.sprite))
+  Matter.World.add(engine.world, entities.map(entity => entity.body))
+}
+
+function removeStar (app, engine, star) {
+  app.stage.removeChild(star.sprite)
+  Matter.World.remove(engine.world, star.body)
+}
+
 export default class World {
   constructor ({ width, height, app, engine, resources }) {
     this.width = width
@@ -24,25 +47,39 @@ export default class World {
       return result
     }, {})
 
-    this.addBackground(app, engine, resources)
-    this.addBounds(app, engine, resources)
-    this.addEntities(app, engine, resources)
+    addBackground(app, engine, resources.background)
+    addBounds(app, engine, this.width, this.height)
+    addEntities(app, engine, this.entities)
 
-    // Add a collision handler.
     Matter.Events.on(engine, 'collisionStart', event => {
       const pairs = event.pairs
 
       pairs.forEach(collision => {
         const bodyA = collision.bodyA
         const bodyB = collision.bodyB
-        if (bodyA.label === 'Player' && bodyB.label === 'Star') {
-          this.removeStar(app, engine, entityMap[bodyB.id])
-        } else if (bodyA.label === 'Star' && bodyB.label === 'Player') {
-          this.removeStar(app, engine, entityMap[bodyA.id])
-        } else if (bodyA.label === 'Enemy' && bodyB.label === 'Platform') {
+        if (bodyA.label === Player.label && bodyB.label === Star.label) {
+          removeStar(app, engine, entityMap[bodyB.id])
+        } else if (bodyA.label === Star.label && bodyB.label === Player.label) {
+          removeStar(app, engine, entityMap[bodyA.id])
+        } else if (bodyA.label === Enemy.label && bodyB.label === Platform.label) {
+          const enemy = entityMap[bodyA.id]
+          enemy.walk()
+        }
+      })
+    })
+
+    Matter.Events.on(engine, 'collisionActive', event => {
+      const pairs = event.pairs
+
+      pairs.forEach(collision => {
+        const bodyA = collision.bodyA
+        const bodyB = collision.bodyB
+        if (bodyA.label === Enemy.label && bodyB.label === Platform.label) {
           const enemy = entityMap[bodyA.id]
           const platform = entityMap[bodyB.id]
-          console.log('extents', platform.extents, enemy.body.position)
+          if ((enemy.body.position.x >= platform.extents.y && enemy.dir > 0) || (enemy.body.position.x <= platform.extents.x && enemy.dir < 0)) {
+            enemy.turnAround()
+          }
         }
       })
     })
@@ -50,28 +87,5 @@ export default class World {
 
   update (delta) {
     this.entities.map(entity => entity.update(delta))
-  }
-
-  addBackground (app, engine, resources) {
-    const background = new Sprite(resources.background.texture)
-    app.stage.addChild(background)
-  }
-
-  addBounds (app, engine, resources) {
-    const floor = Matter.Bodies.rectangle(this.width / 2, this.height + (WALL_THICKNESS / 2), this.width, WALL_THICKNESS, { isStatic: true, label: 'Floor' })
-    const ceiling = Matter.Bodies.rectangle(this.width / 2, -WALL_THICKNESS / 2, 480, WALL_THICKNESS, { isStatic: true, label: 'Ceiling' })
-    const leftWall = Matter.Bodies.rectangle(-WALL_THICKNESS / 2, this.height / 2, WALL_THICKNESS, this.height, { isStatic: true, label: 'Wall' })
-    const rightWall = Matter.Bodies.rectangle(this.width + (WALL_THICKNESS / 2), this.height / 2, WALL_THICKNESS, this.height, { isStatic: true, label: 'Wall' })
-    Matter.World.add(engine.world, [floor, ceiling, leftWall, rightWall])
-  }
-
-  addEntities (app, engine, resources) {
-    this.entities.map(entity => app.stage.addChild(entity.sprite))
-    Matter.World.add(engine.world, this.entities.map(entity => entity.body))
-  }
-
-  removeStar (app, engine, star) {
-    app.stage.removeChild(star.sprite)
-    Matter.World.remove(engine.world, star.body)
   }
 }
