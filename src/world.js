@@ -16,17 +16,17 @@ export default class World {
     this.player = new Player(resources.nyan.texture)
     this.enemy = new Enemy(resources.bird.texture)
     this.stars = range(0, 5).map(n => new Star(resources.star.texture))
-    this.entities = concat([this.player, this.enemy], this.stars)
+    this.platforms = range(0, 2).map(n => new Platform({texture: resources.tiles.texture, x: (200 * n) + 140, y: 200}))
+    this.entities = concat([this.player, this.enemy], this.platforms, this.stars)
+
+    const entityMap = this.entities.reduce((result, entity) => {
+      result[entity.id] = entity
+      return result
+    }, {})
 
     this.addBackground(app, engine, resources)
     this.addBounds(app, engine, resources)
-    this.addPlatforms(app, engine, resources)
-    this.addSprites(app, engine, resources)
-
-    const starMap = this.stars.reduce((result, star) => {
-      result[star.id] = star
-      return result
-    }, {})
+    this.addEntities(app, engine, resources)
 
     // Add a collision handler.
     Matter.Events.on(engine, 'collisionStart', event => {
@@ -36,9 +36,13 @@ export default class World {
         const bodyA = collision.bodyA
         const bodyB = collision.bodyB
         if (bodyA.label === 'Player' && bodyB.label === 'Star') {
-          this.removeStar(app, engine, starMap[bodyB.id])
+          this.removeStar(app, engine, entityMap[bodyB.id])
         } else if (bodyA.label === 'Star' && bodyB.label === 'Player') {
-          this.removeStar(app, engine, starMap[bodyA.id])
+          this.removeStar(app, engine, entityMap[bodyA.id])
+        } else if (bodyA.label === 'Enemy' && bodyB.label === 'Platform') {
+          const enemy = entityMap[bodyA.id]
+          const platform = entityMap[bodyB.id]
+          console.log('extents', platform.extents, enemy.body.position)
         }
       })
     })
@@ -46,6 +50,11 @@ export default class World {
 
   update (delta) {
     this.entities.map(entity => entity.update(delta))
+  }
+
+  addBackground (app, engine, resources) {
+    const background = new Sprite(resources.background.texture)
+    app.stage.addChild(background)
   }
 
   addBounds (app, engine, resources) {
@@ -56,20 +65,9 @@ export default class World {
     Matter.World.add(engine.world, [floor, ceiling, leftWall, rightWall])
   }
 
-  addBackground (app, engine, resources) {
-    const background = new Sprite(resources.background.texture)
-    app.stage.addChild(background)
-  }
-
-  addPlatforms (app, engine, resources) {
-    const platform = new Platform({texture: resources.tiles.texture, x: 200, y: 200})
-    app.stage.addChild(platform.sprite)
-    Matter.World.add(engine.world, platform.body)
-  }
-
-  addSprites (app, engine, resources) {
-    this.entities.map(actor => app.stage.addChild(actor.sprite))
-    Matter.World.add(engine.world, this.entities.map(actor => actor.body))
+  addEntities (app, engine, resources) {
+    this.entities.map(entity => app.stage.addChild(entity.sprite))
+    Matter.World.add(engine.world, this.entities.map(entity => entity.body))
   }
 
   removeStar (app, engine, star) {

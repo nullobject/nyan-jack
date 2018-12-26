@@ -16,4 +16,8 @@ export default class Platform extends Entity {
     })
     super({body, texture: subtexture})
   }
+
+  get extents () {
+    return {x: this.body.bounds.min.x, y: this.body.bounds.max.x}
+  }
 }

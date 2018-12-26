@@ -35,7 +35,7 @@ export default class Game {
   }
 
   update (delta) {
-    Engine.update(this.engine, delta * 20)
+    Engine.update(this.engine, delta * 10)
     this.world.update(delta)
   }
 }
