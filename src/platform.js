@@ -1,6 +1,7 @@
-import Entity from './entity'
 import { Bodies } from 'matter-js'
 import { Rectangle } from 'pixi.js'
+
+import Entity from './entity'
 
 const BLOCK_WIDTH = 32
 const BLOCK_HEIGHT = 32

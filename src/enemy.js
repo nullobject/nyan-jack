@@ -1,7 +1,8 @@
-import Entity from './entity'
 import { Bodies } from 'matter-js'
 import { Rectangle } from 'pixi.js'
 import { range } from 'fkit'
+
+import Entity from './entity'
 
 const WIDTH = 32
 const HEIGHT = 36

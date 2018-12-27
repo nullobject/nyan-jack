@@ -1,10 +1,11 @@
+import * as Matter from 'matter-js'
+import { Sprite } from 'pixi.js'
+import { concat, range } from 'fkit'
+
 import Enemy from './enemy'
 import Platform from './platform'
 import Player from './player'
 import Star from './star'
-import * as Matter from 'matter-js'
-import { Sprite } from 'pixi.js'
-import { concat, range } from 'fkit'
 
 const WALL_THICKNESS = 10
 
