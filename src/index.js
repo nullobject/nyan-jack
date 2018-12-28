@@ -2,7 +2,7 @@ import * as Pixi from 'pixi.js'
 import { Render } from 'matter-js'
 import { keyboard } from 'bulb'
 
-import Game from './game'
+import Game from './Game'
 import background from '../assets/images/background.png'
 import bird from '../assets/images/bird.png'
 import nyan from '../assets/images/nyan.png'

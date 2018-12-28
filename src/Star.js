@@ -1,6 +1,6 @@
-import Entity from './entity'
-
 import { Bodies } from 'matter-js'
+
+import Entity from './Entity'
 
 const RADIUS = 12
 

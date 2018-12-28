@@ -1,7 +1,7 @@
 import { Engine } from 'matter-js'
 import { Application } from 'pixi.js'
 
-import World from './world'
+import World from './World'
 
 const WIDTH = 480
 const HEIGHT = 544
