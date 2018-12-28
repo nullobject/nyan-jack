@@ -22,6 +22,7 @@ Pixi.loader
   .add('tiles', tiles)
   .load((loader, resources) => {
     const game = new Game(resources)
+
     document.body.appendChild(game.app.view)
 
     // XXX: Matterjs debug renderer.
@@ -44,4 +45,6 @@ Pixi.loader
         game.setPlayerVelocity({ x: 2, y: 0 })
       }
     })
+
+    game.start()
   })

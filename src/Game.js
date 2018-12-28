@@ -25,10 +25,6 @@ export default class Game {
       engine: this.engine,
       resources
     })
-
-    this.app.ticker.add(delta => {
-      this.update(delta)
-    })
   }
 
   setPlayerVelocity (vector) {
@@ -37,6 +33,12 @@ export default class Game {
 
   applyForceToPlayer (vector) {
     this.world.player.applyForce(vector)
+  }
+
+  start () {
+    this.app.ticker.add(delta => {
+      this.update(delta)
+    })
   }
 
   update (delta) {
