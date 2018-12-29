@@ -34,7 +34,6 @@ export default class Enemy extends Entity {
     super({ body, textures })
 
     this.sprite.animationSpeed = 0.125
-    this.dir = 1
     this.extents = null
   }
 
@@ -42,6 +41,7 @@ export default class Enemy extends Entity {
     log.debug('Enemy#idle')
     this.state = Entity.states.IDLE
     this.extents = null
+    this.sprite.stop()
     return this
   }
 
@@ -49,13 +49,13 @@ export default class Enemy extends Entity {
     log.debug('Enemy#walk')
     this.state = Entity.states.WALK
     this.extents = extents
+    this.sprite.play()
     return this
   }
 
   turnAround () {
     log.debug('Enemy#turnAround')
     this.dir = -this.dir
-    this.sprite.scale.x = this.dir
     return this
   }
 

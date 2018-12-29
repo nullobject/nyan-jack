@@ -9,11 +9,14 @@ import World from './World'
 import log from './log'
 
 const collisionStartHandlers = [
+  { a: 'player', b: 'floor', run: (world, player, star) => player.walk() },
+  { a: 'player', b: 'platform', run: (world, player, star) => player.walk() },
   { a: 'player', b: 'star', run: (world, player, star) => world.removeEntity(star) },
   { a: 'enemy', b: 'platform', run: (world, enemy, platform) => enemy.walk(platform.extents) }
 ]
 
 const collisionEndHandlers = [
+  { a: 'player', b: 'floor', run: (world, player, star) => player.idle() },
   { a: 'player', b: 'platform', run: (world, player, platform) => player.idle() },
   { a: 'enemy', b: 'platform', run: (world, enemy, platform) => enemy.idle() }
 ]

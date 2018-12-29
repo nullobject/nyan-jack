@@ -19,14 +19,12 @@ function addBounds (app, engine, width, height) {
 
 export default class World {
   constructor ({ width, height, app, engine, resources }) {
-    this.width = width
-    this.height = height
+    addBackground(app, engine, resources.background)
+    addBounds(app, engine, width, height)
+
     this.app = app
     this.engine = engine
     this.entityMap = {}
-
-    addBackground(app, engine, resources.background)
-    addBounds(app, engine, width, height)
   }
 
   addEntities (entities) {

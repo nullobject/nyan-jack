@@ -12,7 +12,6 @@ export default class Entity {
 
     if (textures) {
       this.sprite = new Pixi.extras.AnimatedSprite(textures)
-      this.sprite.play()
     } else {
       this.sprite = new Pixi.Sprite(texture)
     }
@@ -20,6 +19,7 @@ export default class Entity {
     this.sprite.anchor.x = 0.5
     this.sprite.anchor.y = 0.5
     this.state = Entity.states.IDLE
+    this.dir = 1
 
     this.update()
   }
@@ -39,6 +39,7 @@ export default class Entity {
   }
 
   update (delta) {
+    this.sprite.scale.x = this.dir
     this.sprite.position = this.body.position
     this.sprite.rotation = this.body.angle
     return this

@@ -1,6 +1,6 @@
 import { Bodies } from 'matter-js'
 import { Rectangle } from 'pixi.js'
-import { range } from 'fkit'
+import { copy, range } from 'fkit'
 
 import Entity from './Entity'
 import log from './log'
@@ -32,7 +32,14 @@ export default class Player extends Entity {
   idle () {
     log.debug('Player#idle')
     this.state = Entity.states.IDLE
+    this.sprite.stop()
     return this
+  }
+
+  walk () {
+    log.debug('Player#walk')
+    this.state = Entity.states.WALK
+    this.sprite.play()
   }
 
   jump () {
@@ -40,10 +47,12 @@ export default class Player extends Entity {
   }
 
   moveLeft () {
+    this.dir = -1
     return this.setVelocity({ x: -2, y: this.body.velocity.y })
   }
 
   moveRight () {
+    this.dir = 1
     return this.setVelocity({ x: 2, y: this.body.velocity.y })
   }
 }
