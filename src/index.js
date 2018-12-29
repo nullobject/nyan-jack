@@ -80,8 +80,10 @@ loader
 function transformer (game, event) {
   if (event.type === 'tick') {
     game = game.update(event.delta * 10)
-  } else {
+  } else if (game[event.type]) {
     game = game[event.type]()
+  } else {
+    log.error(`Unhandled event ${event.type}`)
   }
 
   return game
