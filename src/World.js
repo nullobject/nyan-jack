@@ -1,6 +1,8 @@
 import * as Matter from 'matter-js'
 import { Sprite } from 'pixi.js'
-import { copy, fold, keys, omit, set, update } from 'fkit'
+import { copy, fold, omit, set } from 'fkit'
+
+import { mapObject } from './util'
 
 const WALL_THICKNESS = 10
 
@@ -46,9 +48,7 @@ export default class World {
   }
 
   update (delta) {
-    const updateEntity = entity => entity.update(delta)
-    const ids = keys(this.entityMap)
-    const entityMap = ids.reduce((entityMap, id) => update(id, updateEntity, entityMap), this.entityMap)
+    const entityMap = mapObject(entity => entity.update(delta), this.entityMap)
     return copy(this, { entityMap })
   }
 }

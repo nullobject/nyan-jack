@@ -9,13 +9,7 @@ export default class Entity {
 
   constructor ({ body, texture, textures }) {
     this.body = body
-
-    if (textures) {
-      this.sprite = new Pixi.extras.AnimatedSprite(textures)
-    } else {
-      this.sprite = new Pixi.Sprite(texture)
-    }
-
+    this.sprite = textures ? new Pixi.extras.AnimatedSprite(textures) : new Pixi.Sprite(texture)
     this.sprite.anchor.x = 0.5
     this.sprite.anchor.y = 0.5
     this.state = Entity.states.IDLE
