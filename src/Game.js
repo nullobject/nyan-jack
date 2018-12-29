@@ -9,10 +9,10 @@ import World from './World'
 import log from './log'
 
 const collisionStartHandlers = [
-  { a: 'player', b: 'floor', run: (world, player) => player.walk() },
+  { a: 'enemy', b: 'platform', run: (world, enemy, platform) => enemy.walk(platform.extents) },
+  { a: 'player', b: 'enemy', run: (world, player, enemy) => enemy.turnAround() },
   { a: 'player', b: 'platform', run: (world, player) => player.walk() },
-  { a: 'player', b: 'star', run: (world, player, star) => world.removeEntity(star) },
-  { a: 'enemy', b: 'platform', run: (world, enemy, platform) => enemy.walk(platform.extents) }
+  { a: 'player', b: 'star', run: (world, player, star) => world.removeEntity(star) }
 ]
 
 const collisionEndHandlers = [
@@ -46,7 +46,12 @@ export default class Game {
     const player = new Player({ x: 400, y: 200, texture: resources.nyan.texture })
     const enemies = range(0, 2).map(n => new Enemy({ x: (200 * n) + 100, y: 100, texture: resources.bird.texture }))
     const stars = range(0, 5).map(n => new Star({ x: 100, y: 200, texture: resources.star.texture }))
-    const platforms = range(0, 2).map(n => new Platform({ x: (200 * n) + 140, y: 200, texture: resources.tiles.texture }))
+    const platforms = [
+      new Platform({ x: 140, y: 200, texture: resources.tiles.texture }),
+      new Platform({ x: 340, y: 200, texture: resources.tiles.texture }),
+      new Platform({ x: 64, y: 400, texture: resources.tiles.texture }),
+      new Platform({ x: 416, y: 400, texture: resources.tiles.texture })
+    ]
 
     let world = new World({
       width,

@@ -19,11 +19,4 @@ export default class Platform extends Entity {
 
     super({ body, texture: subtexture })
   }
-
-  /**
-   * Returns the x-axis extents for the platform.
-   */
-  get extents () {
-    return [ this.body.bounds.min.x, this.body.bounds.max.x ]
-  }
 }

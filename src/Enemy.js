@@ -13,8 +13,8 @@ const WALK_VELOCITY = 0.75
 /**
  * Returns `true` if the enemy should turn around, `false` otherwise.
  */
-function shouldTurn (position, dir, extents) {
-  return (position.x - (WIDTH / 2) <= extents[0] && dir < 0) || (position.x + (WIDTH / 2) >= extents[1] && dir > 0)
+function shouldTurn (position, dir, constraints) {
+  return (position.x - (WIDTH / 2) <= constraints[0] && dir < 0) || (position.x + (WIDTH / 2) >= constraints[1] && dir > 0)
 }
 
 export default class Enemy extends Entity {
@@ -34,21 +34,24 @@ export default class Enemy extends Entity {
     super({ body, textures })
 
     this.sprite.animationSpeed = 0.125
-    this.extents = null
+    this.constraints = null
   }
 
   idle () {
     log.debug('Enemy#idle')
     this.state = Entity.states.IDLE
-    this.extents = null
+    this.constraints = null
     this.sprite.stop()
     return this
   }
 
-  walk (extents) {
+  /**
+   * Starts the enemy walking between the given x-axis constraints.
+   */
+  walk (constraints) {
     log.debug('Enemy#walk')
     this.state = Entity.states.WALK
-    this.extents = extents
+    this.constraints = constraints
     this.sprite.play()
     return this
   }
@@ -63,7 +66,7 @@ export default class Enemy extends Entity {
     super.update(delta)
 
     if (this.state === Entity.states.WALK) {
-      if (this.extents && shouldTurn(this.body.position, this.dir, this.extents)) {
+      if (this.constraints && shouldTurn(this.body.position, this.dir, this.constraints)) {
         this.turnAround()
       }
 

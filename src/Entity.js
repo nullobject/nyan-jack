@@ -22,6 +22,13 @@ export default class Entity {
     return this.body.id
   }
 
+  /**
+   * Returns the x-axis extents for the entity.
+   */
+  get extents () {
+    return [ this.body.bounds.min.x, this.body.bounds.max.x ]
+  }
+
   setVelocity (velocity) {
     Body.setVelocity(this.body, velocity)
     return this
