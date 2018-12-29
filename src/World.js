@@ -1,6 +1,6 @@
 import * as Matter from 'matter-js'
 import { Sprite } from 'pixi.js'
-import { copy, keys, omit, set, update } from 'fkit'
+import { copy, fold, keys, omit, set, update } from 'fkit'
 
 const WALL_THICKNESS = 10
 
@@ -27,6 +27,10 @@ export default class World {
 
     addBackground(app, engine, resources.background)
     addBounds(app, engine, width, height)
+  }
+
+  addEntities (entities) {
+    return fold((world, star) => world.addEntity(star), this, entities)
   }
 
   addEntity (entity) {

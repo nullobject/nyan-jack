@@ -45,7 +45,7 @@ export default class Game {
     this.engine = Engine.create()
 
     const player = new Player({ x: 400, y: 200, texture: resources.nyan.texture })
-    const enemy = new Enemy({ x: 300, y: 100, texture: resources.bird.texture })
+    const enemies = range(0, 2).map(n => new Enemy({ x: (200 * n) + 100, y: 100, texture: resources.bird.texture }))
     const stars = range(0, 5).map(n => new Star({ x: 100, y: 200, texture: resources.star.texture }))
     const platforms = range(0, 2).map(n => new Platform({ x: (200 * n) + 140, y: 200, texture: resources.tiles.texture }))
 
@@ -58,9 +58,9 @@ export default class Game {
     })
 
     world = world.addEntity(player)
-    world = world.addEntity(enemy)
-    world = stars.reduce((world, star) => world.addEntity(star), world)
-    world = platforms.reduce((world, platform) => world.addEntity(platform), world)
+    world = world.addEntities(enemies)
+    world = world.addEntities(stars)
+    world = world.addEntities(platforms)
 
     this.world = world
     this.player = player
