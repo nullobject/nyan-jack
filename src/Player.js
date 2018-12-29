@@ -34,4 +34,16 @@ export default class Player extends Entity {
     this.state = Entity.states.IDLE
     return this
   }
+
+  jump () {
+    return this.applyForce({ x: 0, y: -0.5 })
+  }
+
+  moveLeft () {
+    return this.setVelocity({ x: -2, y: this.body.velocity.y })
+  }
+
+  moveRight () {
+    return this.setVelocity({ x: 2, y: this.body.velocity.y })
+  }
 }

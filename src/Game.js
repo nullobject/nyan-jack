@@ -67,17 +67,17 @@ export default class Game {
   }
 
   jump () {
-    const player = this.player.applyForce({ x: 0, y: -0.5 })
+    const player = this.player.jump()
     return copy(this, { player })
   }
 
   moveLeft () {
-    const player = this.player.setVelocity({ x: -2, y: this.player.body.velocity.y })
+    const player = this.player.moveLeft()
     return copy(this, { player })
   }
 
   moveRight () {
-    const player = this.player.setVelocity({ x: 2, y: this.player.body.velocity.y })
+    const player = this.player.moveRight()
     return copy(this, { player })
   }
 
