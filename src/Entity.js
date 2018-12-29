@@ -28,16 +28,17 @@ export default class Entity {
     return this.body.id
   }
 
-  update (delta) {
-    this.sprite.position = this.body.position
-    this.sprite.rotation = this.body.angle
-  }
-
   setVelocity (velocity) {
     Body.setVelocity(this.body, velocity)
   }
 
   applyForce (force) {
     Body.applyForce(this.body, { x: 0, y: 0 }, force)
+  }
+
+  update (delta) {
+    this.sprite.position = this.body.position
+    this.sprite.rotation = this.body.angle
+    return this
   }
 }

@@ -5,13 +5,12 @@ import Entity from './Entity'
 const RADIUS = 12
 
 export default class Star extends Entity {
-  static label = 'star'
-
-  constructor (texture) {
-    let body = Bodies.circle(100, 200, RADIUS, {
+  constructor ({ x, y, texture }) {
+    const body = Bodies.circle(x, y, RADIUS, {
       inertia: Infinity,
-      label: Star.label
+      label: 'star'
     })
+
     super({ body, texture })
   }
 }

@@ -3,27 +3,35 @@ import { Rectangle } from 'pixi.js'
 import { range } from 'fkit'
 
 import Entity from './Entity'
+import log from './log'
 
 const WIDTH = 60
 const HEIGHT = 37
 const NUM_SPRITES = 5
 
 export default class Player extends Entity {
-  static label = 'player'
+  constructor ({ x, y, texture }) {
+    const body = Bodies.rectangle(x, y, WIDTH, HEIGHT, {
+      inertia: Infinity,
+      label: 'player',
+      mass: 10,
+      friction: 0
+    })
 
-  constructor (texture) {
-    let textures = range(0, NUM_SPRITES).map(n => {
+    const textures = range(0, NUM_SPRITES).map(n => {
       let subtexture = texture.clone()
       subtexture.frame = new Rectangle(n * WIDTH, 0, WIDTH, HEIGHT)
       return subtexture
     })
-    let body = Bodies.rectangle(400, 200, WIDTH, HEIGHT, {
-      inertia: Infinity,
-      label: Player.label,
-      mass: 10,
-      friction: 0
-    })
+
     super({ body, textures })
+
     this.sprite.animationSpeed = 0.25
+  }
+
+  idle () {
+    log.debug('Player#idle')
+    this.state = Entity.states.IDLE
+    return this
   }
 }

@@ -1,11 +1,6 @@
 import * as Matter from 'matter-js'
 import { Sprite } from 'pixi.js'
-import { concat, range } from 'fkit'
-
-import Enemy from './Enemy'
-import Platform from './Platform'
-import Player from './Player'
-import Star from './Star'
+import { copy, keys, omit, set, update } from 'fkit'
 
 const WALL_THICKNESS = 10
 
@@ -22,71 +17,36 @@ function addBounds (app, engine, width, height) {
   Matter.World.add(engine.world, [floor, ceiling, leftWall, rightWall])
 }
 
-function addEntities (app, engine, entities) {
-  entities.map(entity => app.stage.addChild(entity.sprite))
-  Matter.World.add(engine.world, entities.map(entity => entity.body))
-}
-
-function removeStar (app, engine, star) {
-  app.stage.removeChild(star.sprite)
-  Matter.World.remove(engine.world, star.body)
-}
-
 export default class World {
   constructor ({ width, height, app, engine, resources }) {
     this.width = width
     this.height = height
-
-    this.player = new Player(resources.nyan.texture)
-    this.enemy = new Enemy(resources.bird.texture)
-    this.stars = range(0, 5).map(n => new Star(resources.star.texture))
-    this.platforms = range(0, 2).map(n => new Platform({ texture: resources.tiles.texture, x: (200 * n) + 140, y: 200 }))
-    this.entities = concat([this.player, this.enemy], this.platforms, this.stars)
-
-    const entityMap = this.entities.reduce((result, entity) => {
-      result[entity.id] = entity
-      return result
-    }, {})
+    this.app = app
+    this.engine = engine
+    this.entityMap = {}
 
     addBackground(app, engine, resources.background)
-    addBounds(app, engine, this.width, this.height)
-    addEntities(app, engine, this.entities)
+    addBounds(app, engine, width, height)
+  }
 
-    Matter.Events.on(engine, 'collisionStart', event => {
-      const pairs = event.pairs
+  addEntity (entity) {
+    this.app.stage.addChild(entity.sprite)
+    Matter.World.add(this.engine.world, entity.body)
+    const entityMap = set(entity.id, entity, this.entityMap)
+    return copy(this, { entityMap })
+  }
 
-      pairs.forEach(collision => {
-        const bodyA = collision.bodyA
-        const bodyB = collision.bodyB
-        if (bodyA.label === Player.label && bodyB.label === Star.label) {
-          removeStar(app, engine, entityMap[bodyB.id])
-        } else if (bodyA.label === Star.label && bodyB.label === Player.label) {
-          removeStar(app, engine, entityMap[bodyA.id])
-        } else if (bodyA.label === Enemy.label && bodyB.label === Platform.label) {
-          const enemy = entityMap[bodyA.id]
-          enemy.walk()
-        }
-      })
-    })
-
-    Matter.Events.on(engine, 'collisionActive', event => {
-      const pairs = event.pairs
-
-      pairs.forEach(collision => {
-        const bodyA = collision.bodyA
-        const bodyB = collision.bodyB
-        if (bodyA.label === Enemy.label && bodyB.label === Platform.label) {
-          const enemy = entityMap[bodyA.id]
-          const platform = entityMap[bodyB.id]
-          if ((enemy.body.position.x >= platform.extents.y && enemy.dir > 0) || (enemy.body.position.x <= platform.extents.x && enemy.dir < 0)) {
-            enemy.turnAround()
-          }
-        }
-      })
-    })
+  removeEntity (entity) {
+    this.app.stage.removeChild(entity.sprite)
+    Matter.World.remove(this.engine.world, entity.body)
+    const entityMap = omit([entity.id], this.entityMap)
+    return copy(this, { entityMap })
   }
 
   update (delta) {
-    this.entities.map(entity => entity.update(delta))
+    const updateEntity = entity => entity.update(delta)
+    const ids = keys(this.entityMap)
+    const entityMap = ids.reduce((entityMap, id) => update(id, updateEntity, entityMap), this.entityMap)
+    return copy(this, { entityMap })
   }
 }
