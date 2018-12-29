@@ -28,7 +28,7 @@
     "standard": "^12.0.1"
   },
   "dependencies": {
-    "bulb": "^1.1.1",
+    "bulb": "^1.2.0",
     "fkit": "^1.4.0",
     "matter-js": "^0.14.2",
     "nanobus": "^4.4.0",
