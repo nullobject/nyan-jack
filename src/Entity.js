@@ -30,10 +30,12 @@ export default class Entity {
 
   setVelocity (velocity) {
     Body.setVelocity(this.body, velocity)
+    return this
   }
 
   applyForce (force) {
     Body.applyForce(this.body, { x: 0, y: 0 }, force)
+    return this
   }
 
   update (delta) {
