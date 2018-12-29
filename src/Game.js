@@ -39,9 +39,7 @@ function resolveCollisions (world, pairs) {
 
 export default class Game {
   constructor ({ width, height, app, resources }) {
-    this.app = app
-    this.engine = Engine.create()
-
+    const engine = Engine.create()
     const player = new Player({ x: 400, y: 200, texture: resources.nyan.texture })
     const enemies = range(0, 2).map(n => new Enemy({ x: (200 * n) + 100, y: 100, texture: resources.bird.texture }))
     const stars = range(0, 5).map(n => new Star({ x: 100, y: 200, texture: resources.star.texture }))
@@ -50,16 +48,19 @@ export default class Game {
     let world = new World({
       width,
       height,
-      app: this.app,
-      engine: this.engine,
+      app: app,
+      engine: engine,
       resources
     })
 
-    world = world.addEntity(player)
-    world = world.addEntities(enemies)
-    world = world.addEntities(stars)
-    world = world.addEntities(platforms)
+    world = world
+      .addEntity(player)
+      .addEntities(enemies)
+      .addEntities(stars)
+      .addEntities(platforms)
 
+    this.app = app
+    this.engine = engine
     this.world = world
     this.player = player
   }
