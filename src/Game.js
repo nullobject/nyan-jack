@@ -6,9 +6,7 @@ import Platform from './Platform'
 import Player from './Player'
 import Star from './Star'
 import World from './World'
-
-const WIDTH = 480
-const HEIGHT = 544
+import log from './log'
 
 const collisionStartHandlers = [
   { a: 'player', b: 'star', run: (world, player, star) => world.removeEntity(star) },
@@ -40,7 +38,7 @@ function resolveCollisions (world, pairs) {
 }
 
 export default class Game {
-  constructor (app, resources) {
+  constructor ({ width, height, app, resources }) {
     this.app = app
     this.engine = Engine.create()
 
@@ -50,8 +48,8 @@ export default class Game {
     const platforms = range(0, 2).map(n => new Platform({ x: (200 * n) + 140, y: 200, texture: resources.tiles.texture }))
 
     let world = new World({
-      width: WIDTH,
-      height: HEIGHT,
+      width,
+      height,
       app: this.app,
       engine: this.engine,
       resources
@@ -67,16 +65,19 @@ export default class Game {
   }
 
   jump () {
+    log.debug('Game#jump')
     const player = this.player.jump()
     return copy(this, { player })
   }
 
   moveLeft () {
+    log.debug('Game#moveLeft')
     const player = this.player.moveLeft()
     return copy(this, { player })
   }
 
   moveRight () {
+    log.debug('Game#moveRight')
     const player = this.player.moveRight()
     return copy(this, { player })
   }

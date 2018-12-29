@@ -54,7 +54,12 @@ loader
   .add('star', star)
   .add('tiles', tiles)
   .load((loader, resources) => {
-    const game = new Game(app, resources)
+    const game = new Game({
+      width: WIDTH,
+      height: HEIGHT,
+      app,
+      resources
+    })
 
     const subscription = merge(clockSignal, commandSignal)
       .scan(transformer, game)
