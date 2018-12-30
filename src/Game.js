@@ -43,7 +43,7 @@ function resolveCollisions (world, pairs) {
 export default class Game {
   constructor ({ width, height, app, resources }) {
     const engine = Engine.create()
-    const player = new Player({ x: 400, y: 200, texture: resources.nyan.texture })
+    const player = new Player({ x: 0, y: 200, texture: resources.nyan.texture })
     const enemies = range(0, 2).map(n => new Enemy({ x: (200 * n) + 100, y: 100, texture: resources.bird.texture }))
     const stars = range(0, 5).map(n => new Star({ x: 100, y: 200, texture: resources.star.texture }))
     const platforms = [
@@ -91,10 +91,21 @@ export default class Game {
     return copy(this, { player })
   }
 
-  update (delta) {
+  update (delta, inputState) {
+    if (inputState.up) {
+      this.jump()
+    }
+
+    if (inputState.left) {
+      this.moveLeft();
+    } else if (inputState.right) {
+      this.moveRight();
+    }
+
     Engine.update(this.engine, delta)
     let world = resolveCollisions(this.world, this.engine.pairs)
     world = world.update(delta)
+
     return copy(this, { world })
   }
 }

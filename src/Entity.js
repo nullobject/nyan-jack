@@ -4,7 +4,8 @@ import { Body } from 'matter-js'
 export default class Entity {
   static states = {
     IDLE: 0,
-    WALK: 1
+    WALK: 1,
+    JUMP: 2
   }
 
   constructor ({ body, texture, textures }) {

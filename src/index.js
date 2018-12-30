@@ -1,6 +1,6 @@
 import { Application, loaders } from 'pixi.js'
-import { Signal, keyboard, merge } from 'bulb'
-import { values } from 'fkit'
+import { Signal, keyboard, zip } from 'bulb'
+import { elem, values } from 'fkit'
 
 import Game from './Game'
 import background from '../assets/images/background.png'
@@ -29,21 +29,14 @@ const app = new Application({
 const clockSignal = new Signal(emit => {
   app.ticker.add(emit.next)
   return () => app.stop()
-}).map(delta => ({ type: 'tick', delta }))
+})
 
-const commandSignal = keyboard
-  .keys(document)
-  .stateMachine((_, key, emit) => {
-    if (key === UP) {
-      emit.next('jump')
-    } else if (key === DOWN) {
-      emit.next('drop')
-    } else if (key === LEFT) {
-      emit.next('moveLeft')
-    } else if (key === RIGHT) {
-      emit.next('moveRight')
-    }
-  }).map(command => ({ type: command }))
+const controlSignal = keyboard
+  .state(document)
+  .startWith([])
+  .map(convertKeyboardState)
+
+const sampledControlSignal = clockSignal.sample(controlSignal)
 
 const loader = new loaders.Loader()
 
@@ -61,7 +54,7 @@ loader
       resources
     })
 
-    const subscription = merge(clockSignal, commandSignal)
+    const subscription = zip(clockSignal, sampledControlSignal)
       .scan(transformer, game)
       .subscribe()
 
@@ -77,14 +70,22 @@ loader
     }
   })
 
-function transformer (game, event) {
-  if (event.type === 'tick') {
-    game = game.update(event.delta * 10)
-  } else if (game[event.type]) {
-    game = game[event.type]()
-  } else {
-    log.error(`Unhandled event ${event.type}`)
+/**
+ * Converts the raw keyboard state into an input state.
+ */
+function convertKeyboardState (s) {
+  return {
+    up: elem(UP, s),
+    down: elem(DOWN, s),
+    left: elem(LEFT, s),
+    right: elem(RIGHT, s)
   }
+}
 
-  return game
+/**
+ * Applies an event to yield a new state.
+ */
+function transformer (game, event) {
+  const [delta, inputState] = event
+  return game.update(delta * 10, inputState)
 }
