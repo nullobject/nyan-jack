@@ -31,19 +31,35 @@ export default class Player extends Entity {
 
   idle () {
     log.debug('Player#idle')
-    this.state = Entity.states.IDLE
-    this.sprite.stop()
+
+    if (this.state !== Entity.states.IDLE) {
+      this.state = Entity.states.IDLE
+      this.sprite.stop()
+    }
+
     return this
   }
 
   walk () {
     log.debug('Player#walk')
-    this.state = Entity.states.WALK
-    this.sprite.play()
+
+    if (this.state !== Entity.states.WALK) {
+      this.state = Entity.states.WALK
+      this.sprite.play()
+    }
+
+    return this;
   }
 
   jump () {
-    return this.applyForce({ x: 0, y: -0.5 })
+    log.debug('Player#jump')
+
+    if (this.state !== Entity.states.JUMP) {
+      this.state = Entity.states.JUMP
+      return this.applyForce({ x: 0, y: -0.5 })
+    } else {
+      return this
+    }
   }
 
   moveLeft () {
