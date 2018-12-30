@@ -22,7 +22,7 @@ export default class Enemy extends Entity {
     const body = Bodies.rectangle(x, y, WIDTH, HEIGHT, {
       inertia: Infinity,
       label: 'enemy',
-      friction: 0
+      // friction: 0
     })
 
     const textures = range(0, NUM_SPRITES).map(n => {

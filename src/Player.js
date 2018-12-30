@@ -15,7 +15,7 @@ export default class Player extends Entity {
       inertia: Infinity,
       label: 'player',
       mass: 10,
-      friction: 0
+      // friction: 0
     })
 
     const textures = range(0, NUM_SPRITES).map(n => {

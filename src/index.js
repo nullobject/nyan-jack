@@ -36,6 +36,7 @@ const controlSignal = keyboard
   .startWith([])
   .map(convertKeyboardState)
 
+// Sample the control signel at every clock tick.
 const sampledControlSignal = clockSignal.sample(controlSignal)
 
 const loader = new loaders.Loader()

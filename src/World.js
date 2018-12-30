@@ -13,9 +13,9 @@ function addBackground (app, engine, background) {
 
 function addBounds (app, engine, width, height) {
   const floor = Matter.Bodies.rectangle(width / 2, height + (WALL_THICKNESS / 2), width, WALL_THICKNESS, { isStatic: true, label: 'floor' })
-  const ceiling = Matter.Bodies.rectangle(width / 2, -WALL_THICKNESS / 2, 480, WALL_THICKNESS, { isStatic: true, label: 'ceiling' })
-  const leftWall = Matter.Bodies.rectangle(-WALL_THICKNESS / 2, height / 2, WALL_THICKNESS, height, { isStatic: true, label: 'wall' })
-  const rightWall = Matter.Bodies.rectangle(width + (WALL_THICKNESS / 2), height / 2, WALL_THICKNESS, height, { isStatic: true, label: 'wall' })
+  const ceiling = Matter.Bodies.rectangle(width / 2, -WALL_THICKNESS / 2, 480, WALL_THICKNESS, { friction: 0, isStatic: true, label: 'ceiling' })
+  const leftWall = Matter.Bodies.rectangle(-WALL_THICKNESS / 2, height / 2, WALL_THICKNESS, height, { friction: 0, isStatic: true, label: 'wall' })
+  const rightWall = Matter.Bodies.rectangle(width + (WALL_THICKNESS / 2), height / 2, WALL_THICKNESS, height, { friction: 0, isStatic: true, label: 'wall' })
   Matter.World.add(engine.world, [floor, ceiling, leftWall, rightWall])
 }
 

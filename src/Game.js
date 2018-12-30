@@ -9,8 +9,9 @@ import World from './World'
 import log from './log'
 
 const collisionStartHandlers = [
+  { a: 'enemy', b: 'enemy', run: (world, enemy1, enemy2) => { enemy1.turnAround(); enemy2.turnAround() } },
   { a: 'enemy', b: 'platform', run: (world, enemy, platform) => enemy.walk(platform.extents) },
-  { a: 'player', b: 'enemy', run: (world, player, enemy) => enemy.turnAround() },
+  { a: 'enemy', b: 'wall', run: (world, enemy) => enemy.turnAround() },
   { a: 'player', b: 'platform', run: (world, player) => player.walk() },
   { a: 'player', b: 'star', run: (world, player, star) => world.removeEntity(star) }
 ]
