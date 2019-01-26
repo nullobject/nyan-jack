@@ -1,5 +1,6 @@
 import { Application, loaders } from 'pixi.js'
-import { Signal, keyboardState, zip } from 'bulb'
+import { Signal } from 'bulb'
+import { Keyboard } from 'bulb-input'
 import { elem, values } from 'fkit'
 
 import Game from './Game'
@@ -31,7 +32,8 @@ const clockSignal = new Signal(emit => {
   return () => app.stop()
 })
 
-const controlSignal = keyboardState(document)
+const controlSignal = Keyboard
+  .state(document)
   .startWith([])
   .map(convertKeyboardState)
 
@@ -54,7 +56,8 @@ loader
       resources
     })
 
-    const subscription = zip(clockSignal, sampledControlSignal)
+    const subscription = Signal
+      .zip(clockSignal, sampledControlSignal)
       .scan(transformer, game)
       .subscribe()
 
